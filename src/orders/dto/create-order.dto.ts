@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   IsArray,
+  IsBoolean,
   IsInt,
   IsOptional,
   IsString,
@@ -26,13 +27,33 @@ export class CreateOrderDto {
   @IsString()
   employeeId?: string;
 
-  @ApiProperty({ example: 'Геленджик, ул. Примерная, 10' })
+  @ApiProperty({ example: 'Иван Петров' })
   @IsString()
-  deliveryAddress!: string;
+  employeeName!: string;
 
-  @ApiProperty({ example: 'p1' })
+  @ApiProperty({ example: true, description: 'Нужно ли оформление (упаковка)' })
+  @IsBoolean()
+  packagingEnabled!: boolean;
+
+  @ApiPropertyOptional({
+    example: 'p1',
+    description: 'Идентификатор упаковки (если packagingEnabled = true)',
+  })
+  @IsOptional()
   @IsString()
-  packagingId!: string;
+  packagingId?: string;
+
+  @ApiProperty({ example: true, description: 'Нужна ли доставка' })
+  @IsBoolean()
+  deliveryEnabled!: boolean;
+
+  @ApiPropertyOptional({
+    example: 'Геленджик, ул. Примерная, 10',
+    description: 'Адрес доставки (если deliveryEnabled = true)',
+  })
+  @IsOptional()
+  @IsString()
+  deliveryAddress?: string;
 
   @ApiProperty({
     type: [OrderLineDto],

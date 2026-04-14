@@ -13,5 +13,6 @@ import { OrdersService } from './orders.service';
     BouquetCalculatorService,
     DeliveryQuoteService,
   ],
+  exports: [OrdersService, BouquetCalculatorService, DeliveryQuoteService],
 })
 export class OrdersModule {}

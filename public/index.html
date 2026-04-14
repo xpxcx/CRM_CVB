@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlowerShop Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;0,700;1,500&family=Outfit:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --r-sm: 10px;
+        --r-md: 14px;
+        --r-lg: 18px;
+        --r-xl: 22px;
+        --r-pill: 999px;
+        --bg: #e6f2f0;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #5b6b7a;
+        --border: #b8d4d0;
+        --accent: #0d9488;
+        --accent-hover: #0f766e;
+        --accent-soft: #ccfbf1;
+        --accent-glow: rgba(13, 148, 136, 0.18);
+        --secondary: #6366f1;
+        --secondary-hover: #4f46e5;
+        --ink: #0f172a;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Outfit", system-ui, sans-serif;
+        background-color: var(--bg);
+        background-image:
+          radial-gradient(ellipse 100% 70% at 10% -10%, rgba(204, 251, 241, 0.9) 0%, transparent 50%),
+          radial-gradient(ellipse 80% 50% at 95% 20%, rgba(199, 210, 254, 0.45) 0%, transparent 45%),
+          linear-gradient(180deg, #dff5f2 0%, #e6f2f0 35%, #eef6f5 100%);
+        color: var(--text);
+        line-height: 1.55;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .app-chrome {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(240, 253, 250, 0.92) 100%);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 8px 32px -12px rgba(13, 116, 110, 0.18);
+      }
+      .app-chrome-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      .top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.15rem 0 0.75rem;
+      }
+      .brand-block h1 {
+        margin: 0;
+        font-family: "Cormorant", Georgia, "Times New Roman", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        color: var(--ink);
+        line-height: 1.15;
+      }
+      .brand-block p {
+        margin: 0.35rem 0 0;
+        font-size: 0.875rem;
+        color: var(--muted);
+        max-width: 40rem;
+        line-height: 1.45;
+      }
+      .top-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        padding-top: 0.35rem;
+      }
+      .top-links a {
+        font-size: 0.82rem;
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+        padding: 0.45rem 0.85rem;
+        border-radius: var(--r-pill);
+        background: var(--accent-soft);
+        border: 1px solid rgba(13, 148, 136, 0.28);
+        letter-spacing: 0.02em;
+        transition: background 0.15s, color 0.15s, transform 0.12s;
+      }
+      .top-links a:hover {
+        background: var(--accent);
+        color: #fff;
+        transform: translateY(-1px);
+      }
+
+      .tab-bar {
+        padding: 0 0 0.85rem;
+        background: transparent;
+      }
+      .tab-inner {
+        max-width: 980px;
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.35rem;
+        padding: 0.4rem;
+        background: rgba(255, 255, 255, 0.75);
+        border: 1px solid var(--border);
+        border-radius: var(--r-xl);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 2px 12px rgba(13, 116, 110, 0.08);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+      }
+      .tab-inner::-webkit-scrollbar { height: 5px; }
+      .tab-inner::-webkit-scrollbar-thumb {
+        background: rgba(13, 148, 136, 0.35);
+        border-radius: var(--r-pill);
+      }
+
+      .nav-btn {
+        flex: 1 1 auto;
+        min-width: min-content;
+        text-align: center;
+        padding: 0.55rem 0.85rem;
+        border: none;
+        border-radius: var(--r-lg);
+        background: transparent;
+        font: inherit;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--muted);
+        white-space: nowrap;
+        transition: color 0.15s, background 0.15s, box-shadow 0.15s;
+      }
+      .nav-btn:hover {
+        color: var(--text);
+        background: rgba(13, 148, 136, 0.08);
+      }
+      .nav-btn.active {
+        color: #fff;
+        font-weight: 700;
+        background: linear-gradient(145deg, var(--accent) 0%, #14b8a6 100%);
+        box-shadow: 0 4px 14px var(--accent-glow);
+      }
+      @media (max-width: 720px) {
+        .tab-inner {
+          justify-content: flex-start;
+        }
+        .nav-btn {
+          flex: 0 0 auto;
+        }
+        .top {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .top-links {
+          justify-content: flex-start;
+          padding-top: 0;
+        }
+      }
+
+      .shell {
+        max-width: 1120px;
+        margin: 0 auto;
+        width: 100%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+
+      .main { padding: 1.5rem 1rem 2.5rem; flex: 1; }
+      .panel { display: none; }
+      .panel.active { display: block; }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 1.35rem 1.4rem;
+        max-width: 860px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        box-sizing: border-box;
+        box-shadow: 0 12px 40px -18px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      }
+      .card.wide { max-width: 980px; }
+      .card h3 {
+        margin: 0 0 0.5rem;
+        font-family: "Cormorant", Georgia, serif;
+        font-size: 1.65rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .lead { margin: 0 0 1.1rem; color: var(--muted); font-size: 0.92rem; }
+      label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--muted); margin-bottom: 0.3rem; letter-spacing: 0.04em; text-transform: uppercase; }
+      input, textarea, select {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.6rem 0.85rem;
+        border-radius: var(--r-md);
+        border: 1.5px solid var(--border);
+        font: inherit;
+        margin-bottom: 0.75rem;
+        background: #fafefe;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--accent-glow);
+        background: #fff;
+      }
+      textarea { min-height: 96px; resize: vertical; }
+      .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      @media (max-width: 560px) { .row2 { grid-template-columns: 1fr; } }
+      .form-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1rem; align-items: start; }
+      @media (max-width: 920px) { .form-grid { grid-template-columns: 1fr; } }
+      .form-col { display: grid; gap: 0.75rem; }
+      .section {
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 1rem 1.1rem;
+        background: linear-gradient(165deg, #ffffff 0%, #f4fdfa 100%);
+      }
+      .section h4 {
+        margin: 0 0 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: 0.03em;
+      }
+      .section .hint { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.86rem; }
+      .inline-check {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.6rem 0.85rem;
+        border: 1.5px dashed rgba(13, 148, 136, 0.35);
+        border-radius: var(--r-md);
+        background: rgba(240, 253, 250, 0.65);
+        margin-bottom: 0.6rem;
+      }
+      .inline-check input { width: auto; margin: 0; accent-color: var(--accent); }
+      .inline-check span { font-weight: 600; color: var(--text); }
+      .field { display: grid; gap: 0.25rem; }
+      .field input, .field select, .field textarea { margin-bottom: 0; }
+      .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 0.85rem 0; }
+      .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.25rem 0 0.75rem; }
+      .btn-stack { display: grid; gap: 0.55rem; margin: 0.25rem 0 0.25rem; }
+      .btn-stack button.action { width: 100%; justify-content: center; }
+      button.action {
+        cursor: pointer;
+        border: none;
+        border-radius: var(--r-md);
+        padding: 0.65rem 1.15rem;
+        font: inherit;
+        font-weight: 700;
+        background: linear-gradient(145deg, var(--accent) 0%, #14b8a6 100%);
+        color: #fff;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 14px var(--accent-glow);
+      }
+      button.action:hover { background: var(--accent-hover); box-shadow: 0 6px 18px var(--accent-glow); }
+      button.action.secondary {
+        background: linear-gradient(145deg, var(--secondary) 0%, #818cf8 100%);
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+      }
+      button.action.secondary:hover { background: var(--secondary-hover); }
+      button.action.ghost {
+        background: #fff;
+        color: var(--text);
+        border: 1.5px solid var(--border);
+        font-weight: 600;
+        box-shadow: none;
+      }
+      button.action.ghost:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hover); }
+
+      .table-wrap {
+        overflow-x: auto;
+        margin-top: 0.5rem;
+        border-radius: var(--r-md);
+        border: 1px solid var(--border);
+      }
+      table.data {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.86rem;
+      }
+      table.data th, table.data td {
+        border: 1px solid var(--border);
+        padding: 0.5rem 0.65rem;
+        text-align: left;
+        vertical-align: top;
+      }
+      table.data th {
+        background: linear-gradient(180deg, #ecfdf9 0%, #e0f2f1 100%);
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+      }
+      table.data tbody tr:nth-child(even) { background: rgba(240, 253, 250, 0.5); }
+
+      .msg { margin-top: 0.75rem; padding: 0.75rem 0.9rem; border-radius: var(--r-md); display: none; }
+      .msg.ok { display: block; background: #ecfdf5; border: 1px solid #6ee7b7; color: #14532d; }
+      .msg.err { display: block; background: #fef2f2; border: 1px solid #fca5a5; color: #7f1d1d; }
+      pre.out {
+        margin: 0.75rem 0 0;
+        padding: 0.85rem;
+        background: linear-gradient(165deg, #134e4a 0%, #0f172a 100%);
+        color: #e2e8f0;
+        border-radius: var(--r-md);
+        font-family: ui-monospace, "Cascadia Code", monospace;
+        font-size: 0.78rem;
+        overflow: auto;
+        max-height: 280px;
+        white-space: pre-wrap;
+        word-break: break-word;
+        border: 1px solid rgba(45, 212, 191, 0.25);
+      }
+      .muted { color: var(--muted); font-size: 0.88rem; }
+      code.kbd {
+        background: var(--accent-soft);
+        padding: 0.12rem 0.45rem;
+        border-radius: var(--r-sm);
+        border: 1px solid rgba(13, 148, 136, 0.25);
+        font-size: 0.85em;
+      }
+
+      .catalog-sub {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0;
+        margin: 0 0 1rem;
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .catalog-sub-btn {
+        flex: 1 1 50%;
+        text-align: center;
+        padding: 0.65rem 0.75rem;
+        border: none;
+        border-right: 1px solid var(--border);
+        background: transparent;
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: var(--muted);
+      }
+      .catalog-sub-btn:last-child { border-right: none; }
+      .catalog-sub-btn:hover {
+        color: var(--text);
+        background: rgba(255, 253, 249, 0.7);
+      }
+      .catalog-sub-btn.active {
+        color: #fff;
+        background: linear-gradient(145deg, var(--accent) 0%, #14b8a6 100%);
+        box-shadow: none;
+      }
+      .catalog-pane { display: none; }
+      .catalog-pane.active { display: block; }
+      .catalog-pane .hint { margin: 0 0 0.75rem; color: var(--muted); font-size: 0.86rem; }
+      button.catalog-refresh {
+        cursor: pointer;
+        border-radius: var(--r-md);
+        padding: 0.5rem 0.95rem;
+        font: inherit;
+        font-weight: 600;
+        background: #fff;
+        color: var(--text);
+        border: 1.5px solid var(--border);
+      }
+      button.catalog-refresh:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hover); }
+    </style>
+  </head>
+  <body>
+    <div class="app-chrome">
+      <div class="app-chrome-inner">
+        <header class="top">
+          <div class="brand-block">
+            <h1>FlowerShop Platform</h1>
+           
+          </div>
+          <div class="top-links">
+            <a href="/api-docs" target="_blank" rel="noreferrer">Swagger UI</a>
+          </div>
+        </header>
+
+        <nav class="tab-bar" aria-label="Разделы">
+          <div class="tab-inner">
+            <button type="button" class="nav-btn active" data-panel="p-order">Оформление заказа</button>
+            <button type="button" class="nav-btn" data-panel="p-catalog">Каталог</button>
+            <button type="button" class="nav-btn" data-panel="p-orders">Просмотр заказов</button>
+            <button type="button" class="nav-btn" data-panel="p-classmate">Товары (API одногруппника)</button>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div class="shell">
+      <main class="main">
+        <section id="p-order" class="panel active">
+          <div class="card wide">
+            <h3>Новый заказ</h3>
+            <p class="lead">Укажите сотрудника и состав (цветы). Доставку и упаковку включайте при необходимости. Затем нажмите «Создать заказ».</p>
+
+            <div class="form-grid">
+              <div class="form-col">
+                <div class="section">
+                  <h4>Данные заказа</h4>
+                  <p class="hint">Обязательное: имя сотрудника и состав (хотя бы один цветок).</p>
+
+                  <div class="field">
+                    <label for="orderEmployeeName">Сотрудник (имя)</label>
+                    <input id="orderEmployeeName" type="text" placeholder="Иван Петров" />
+                  </div>
+
+                  <div class="divider"></div>
+
+                  <div class="inline-check">
+                    <input id="deliveryEnabled" type="checkbox" />
+                    <span>Доставка</span>
+                    <span class="muted" style="margin-left:auto;">да / нет</span>
+                  </div>
+
+                  <div id="addressBlock" class="field" style="display: none">
+                    <label for="orderAddress">Адрес доставки</label>
+                    <input id="orderAddress" type="text" placeholder="Геленджик, ул. Примерная, 10" />
+                  </div>
+                </div>
+
+                <div class="section">
+                  <h4>Состав букета</h4>
+                  <p class="hint">Выберите количество для нужных цветов (0 — не добавлять).</p>
+                  <div class="table-wrap">
+                    <table class="data" id="tblFlowersPick"></table>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-col">
+                <div class="section">
+                  <h4>Оформление</h4>
+                  <p class="hint">Если включено — выберите упаковку из списка.</p>
+
+                  <div class="inline-check">
+                    <input id="packagingEnabled" type="checkbox" />
+                    <span>Добавить упаковку</span>
+                    <span class="muted" style="margin-left:auto;">да / нет</span>
+                  </div>
+
+                  <div class="field">
+                    <label for="orderPackagingId">Упаковка</label>
+                    <select id="orderPackagingId" disabled></select>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <h4>Действия</h4>
+                  <p class="hint">После создания заказа результат появится ниже.</p>
+                  <div class="btn-stack">
+                    <button class="action" id="btnCreateOrder">Создать заказ</button>
+                    <button class="action ghost" id="btnPrefillOrder">Заполнить пример</button>
+                    <button class="action secondary" id="btnOpenOrders">Список заказов</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="orderMsg" class="msg"></div>
+            <pre id="orderOut" class="out"></pre>
+          </div>
+        </section>
+
+        <section id="p-catalog" class="panel">
+          <div class="card wide">
+            <h3>Каталог</h3>
+            <p class="lead">Справочники магазина: цветы и упаковка.</p>
+
+            <div class="catalog-sub" role="tablist" aria-label="Разделы каталога">
+              <button type="button" class="catalog-sub-btn active" role="tab" data-catalog="flowers" aria-selected="true">
+                Цветы
+              </button>
+              <button type="button" class="catalog-sub-btn" role="tab" data-catalog="packaging" aria-selected="false">
+                Упаковка
+              </button>
+            </div>
+
+            <div id="catalogPaneFlowers" class="catalog-pane active" data-catalog-pane="flowers" role="tabpanel">
+              <p class="hint">Ассортимент цветов и остатки на складе.</p>
+              <div class="section" style="margin-bottom: 0.9rem">
+                <h4>Управление цветами</h4>
+                <p class="hint">Добавьте новый цветок или измените остаток существующего.</p>
+
+                <div class="row2">
+                  <div class="field">
+                    <label for="newFlowerId">ID (необязательно)</label>
+                    <input id="newFlowerId" type="text" placeholder="например, f10" />
+                  </div>
+                  <div class="field">
+                    <label for="newFlowerCategoryId">Категория</label>
+                    <input id="newFlowerCategoryId" type="text" placeholder="например, c1" value="c1" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="newFlowerName">Название</label>
+                  <input id="newFlowerName" type="text" placeholder="например, Пион" />
+                </div>
+                <div class="row2">
+                  <div class="field">
+                    <label for="newFlowerPrice">Цена за штуку, ₽</label>
+                    <input id="newFlowerPrice" type="number" min="0" step="1" placeholder="0" />
+                  </div>
+                  <div class="field">
+                    <label for="newFlowerStock">Остаток на складе</label>
+                    <input id="newFlowerStock" type="number" min="0" step="1" placeholder="0" />
+                  </div>
+                </div>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;margin:0.25rem 0 0.75rem">
+                  <input type="checkbox" id="newFlowerActive" checked style="width:auto;margin:0" />
+                  Активен (доступен для заказа)
+                </label>
+                <div class="btn-row" style="margin-bottom:0.5rem">
+                  <button type="button" class="action" id="btnAddFlower">Добавить цветок</button>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="row2">
+                  <div class="field">
+                    <label for="stockFlowerId">Цветок</label>
+                    <select id="stockFlowerId"></select>
+                  </div>
+                  <div class="field">
+                    <label for="stockFlowerQty">Новый остаток</label>
+                    <input id="stockFlowerQty" type="number" min="0" step="1" placeholder="0" />
+                  </div>
+                </div>
+                <div class="btn-row" style="margin-bottom:0">
+                  <button type="button" class="action ghost" id="btnSetFlowerStock">Изменить остаток</button>
+                </div>
+
+                <p class="muted" id="flowerMsg" style="display:none;margin-top:0.75rem"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="catalog-refresh" id="btnRefreshFlowers">Обновить</button>
+              </div>
+              <div class="table-wrap">
+                <table class="data" id="tblCatalogFlowers"></table>
+              </div>
+            </div>
+
+            <div id="catalogPanePackaging" class="catalog-pane" data-catalog-pane="packaging" role="tabpanel">
+              <p class="hint">Варианты упаковки и цены.</p>
+              <div class="section" style="margin-bottom: 0.9rem">
+                <h4>Управление упаковкой</h4>
+                <p class="hint">Добавьте новый вариант упаковки.</p>
+
+                <div class="row2">
+                  <div class="field">
+                    <label for="newPackId">ID (необязательно)</label>
+                    <input id="newPackId" type="text" placeholder="например, p10" />
+                  </div>
+                  <div class="field">
+                    <label for="newPackPrice">Цена, ₽</label>
+                    <input id="newPackPrice" type="number" min="0" step="1" placeholder="0" />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="newPackName">Название</label>
+                  <input id="newPackName" type="text" placeholder="например, Лён + шпагат" />
+                </div>
+                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;margin:0.25rem 0 0.75rem">
+                  <input type="checkbox" id="newPackActive" checked style="width:auto;margin:0" />
+                  Активна (доступна для заказа)
+                </label>
+                <div class="btn-row" style="margin-bottom:0">
+                  <button type="button" class="action" id="btnAddPackaging">Добавить упаковку</button>
+                </div>
+                <p class="muted" id="packagingMsg" style="display:none;margin-top:0.75rem"></p>
+              </div>
+              <div class="btn-row">
+                <button type="button" class="catalog-refresh" id="btnRefreshPackaging">Обновить</button>
+              </div>
+              <div class="table-wrap">
+                <table class="data" id="tblCatalogPackaging"></table>
+              </div>
+            </div>
+
+            <pre id="catalogOut" class="out"></pre>
+          </div>
+        </section>
+
+        <section id="p-orders" class="panel">
+          <div class="card wide">
+            <h3>Заказы</h3>
+            <p class="lead">
+              Список заказов в памяти текущего запуска сервера (in-memory). Таблица подгружается при открытии этой вкладки.
+            </p>
+            <div class="btn-row">
+              <button type="button" class="catalog-refresh" id="btnRefreshOrders">Обновить</button>
+            </div>
+            <div class="table-wrap">
+              <table class="data" id="tblOrders"></table>
+            </div>
+            <pre id="ordersOut" class="out"></pre>
+          </div>
+        </section>
+
+        <section id="p-classmate" class="panel">
+          <div class="card wide">
+            <h3>Товары (API одногруппника)</h3>
+
+            <h4 style="margin:0 0 0.75rem;font-size:1rem">Добавить товар</h4>
+            <div class="field">
+              <label for="prodName">Название</label>
+              <input id="prodName" type="text" placeholder="Например, Клавиатура" />
+            </div>
+            <div class="field">
+              <label for="prodDesc">Описание</label>
+              <textarea id="prodDesc" placeholder="Краткое описание"></textarea>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="prodPrice">Цена, ₽</label>
+                <input id="prodPrice" type="number" min="0" step="1" placeholder="0" />
+              </div>
+              <div class="field">
+                <label for="prodStock">На складе</label>
+                <input id="prodStock" type="number" min="0" step="1" placeholder="0" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="prodCategory">Категория</label>
+              <input id="prodCategory" type="text" placeholder="Например, Аксессуары" />
+            </div>
+            <div class="btn-row">
+              <button type="button" class="action" id="btnAddProduct">Отправить в магазин</button>
+            </div>
+            <p class="muted" id="prodAddMsg" style="display:none"></p>
+
+            <h4 style="margin:1.25rem 0 0.75rem;font-size:1rem">Каталог</h4>
+            <div class="btn-row">
+              <button type="button" class="action secondary" id="btnRefreshProducts">Обновить список</button>
+            </div>
+            <p class="muted" id="prodEmpty">Загрузка…</p>
+            <div class="table-wrap" id="prodWrap" style="display:none">
+              <table class="data" id="tblClassmateProducts"></table>
+            </div>
+            <pre id="classmateOut" class="out" style="display:none"></pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/platform.js"></script>
+  </body>
+</html>
+

@@ -25,8 +25,11 @@ export interface OrderLineResult {
 export interface OrderResult {
   id: string;
   employeeId: string | null;
-  deliveryAddress: string;
-  packagingId: string;
+  employeeName: string | null;
+  deliveryEnabled: boolean;
+  deliveryAddress: string | null;
+  packagingEnabled: boolean;
+  packagingId: string | null;
   packagingName: string;
   status: string;
   createdAt: string;
