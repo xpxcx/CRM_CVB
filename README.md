@@ -24,9 +24,17 @@ npm run start:dev
 - `NODE_ENV=production`
 - `PORT` выставляет Render автоматически (в коде используется `process.env.PORT ?? 3000`).
 
+## Swagger (документация)
+
+Swagger UI доступен по пути:
+
+- локально: `http://localhost:3000/api-docs`
+- на Render: `https://<your-service>.onrender.com/api-docs`
+
 ## Эндпоинты
 
 - `GET /api/catalog/flowers`
 - `GET /api/catalog/packaging`
+- `GET /api/health`
 - `GET /api/orders`
 - `POST /api/orders`
