@@ -33,8 +33,27 @@ Swagger UI доступен по пути:
 
 ## Эндпоинты
 
-- `GET /api/catalog/flowers`
-- `GET /api/catalog/packaging`
-- `GET /api/health`
-- `GET /api/orders`
-- `POST /api/orders`
+- **Информация**
+  - `GET /api/health`
+
+- **Каталог**
+  - `GET /api/catalog/flowers`
+  - `POST /api/catalog/flowers`
+  - `PATCH /api/catalog/flowers/:id/stock`
+  - `DELETE /api/catalog/flowers/:id`
+  - `GET /api/catalog/packaging`
+  - `POST /api/catalog/packaging`
+  - `DELETE /api/catalog/packaging/:id`
+
+- **Заказы**
+  - `GET /api/orders`
+  - `POST /api/orders`
+
+- **Одногруппник (прокси)**
+  - `GET /api/classmate/health`
+  - `GET /api/classmate/products`
+  - `POST /api/classmate/products`
+
+- **Интеграция**
+  - `GET /api/integration/status`
+  - `POST /api/integration/bouquet-estimate`
